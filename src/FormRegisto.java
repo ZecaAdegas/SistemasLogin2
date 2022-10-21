@@ -6,6 +6,9 @@ import static java.lang.Character.isDigit;
 import static java.lang.Character.isLetter;
 import static java.lang.Character.isLowerCase;
 import static java.lang.Character.isUpperCase;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /*
@@ -210,7 +213,7 @@ public class FormRegisto extends javax.swing.JFrame {
         String rePass = ctxConfirmaPassword.getText();
         if (nome.equals("") || email.equals("") || morada.equals("")
                 || telefone.equals("") || nif.equals("")
-                || pass.equals("") || rePass.equals("")) {
+                || pass.equals("") || rePass.equals("") || login.equals("")) {
             mensagemErro("Preencha todos os campos!");
         } else {
             if (!validaCampoNumerico(telefone)) {
@@ -235,7 +238,15 @@ public class FormRegisto extends javax.swing.JFrame {
                 mensagemErro("O campo Reescreva Password tem de ser igual "
                         + "ao campo Password");
             } else {
-              RegistarUtilizador(nome, login, email, morada, telefone, nif, pass);  
+                try {
+                    LigaBD.registaUtilizador(nome, email, morada, Integer.parseInt(telefone), Integer.parseInt(nif), login, pass);
+                    Login log = new Login();
+                    this.dispose();
+                    log.setVisible(true);
+                } catch (SQLException ex) {
+                    Logger.getLogger(FormRegisto.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                RegistarUtilizador(nome, login, email, morada, telefone, nif, pass);  
             }
         }
     }//GEN-LAST:event_jButton1ActionPerformed
