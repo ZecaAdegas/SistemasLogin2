@@ -1,15 +1,18 @@
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import static java.lang.Character.isDigit;
 import static java.lang.Character.isLetter;
 import static java.lang.Character.isLowerCase;
 import static java.lang.Character.isUpperCase;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
@@ -28,19 +31,11 @@ public class FormEditar extends javax.swing.JFrame {
      */
     public ArrayList<String> dados = new ArrayList<>(); 
     Login log;
-    public FormEditar() {
+    public FormEditar() throws SQLException {
         initComponents();
         if (log==null)
             log = new Login();
-        lerFicheiro(log.login);
-        ctxLogin.setText(log.login);
-        ctxNome.setText(dados.get(1));
-        ctxEmail.setText(dados.get(2));
-        ctxMorada.setText(dados.get(3));
-        ctxTelefone.setText(dados.get(4));
-        ctxNIF.setText(dados.get(5));
-        ctxPassword.setText(dados.get(0));
-        ctxConfirmaPassword.setText(dados.get(0));
+        lerFicheiro();
     }
 
     /**
@@ -266,11 +261,14 @@ public class FormEditar extends javax.swing.JFrame {
                 mensagemErro("O campo Reescreva Password tem de ser igual "
                         + "ao campo Password");
             } else {
-              EditarUtilizador(nome, email, morada, telefone, nif, pass);
-              MenuOpcoes mo = new MenuOpcoes();
-              this.setVisible(false);
-              mo.setVisible(true);
-              
+                try {
+                    LigaBD.editarUtilizador(nome, email, morada, Integer.parseInt(telefone), Integer.parseInt(nif), Login.login, pass);
+                    MenuOpcoes mo = new MenuOpcoes();
+                    this.setVisible(false);
+                    mo.setVisible(true);
+                } catch (SQLException ex) {
+                    Logger.getLogger(FormRegisto.class.getName()).log(Level.SEVERE, null, ex);
+                }                        
             }
         }
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -474,23 +472,21 @@ public class FormEditar extends javax.swing.JFrame {
             }
     }
 
-    private void lerFicheiro(String login) {
-        int i = 0;
-            try {
-                File ficheiro = new File(login+".txt");
-                FileReader fr = new FileReader(ficheiro);
-                BufferedReader br = new BufferedReader(fr);
-                while(br.ready()){
-                    String linha = br.readLine();
-                    dados.add(linha);
-                    i += 1;
-                }
-                br.close();
-                fr.close();
-            } catch (FileNotFoundException ex) {
-                ex.printStackTrace();
-            } catch (IOException ioe){
-                ioe.printStackTrace();
-            }        
+    private void lerFicheiro() throws SQLException {
+        Connection conn = LigaBD.ligacao();
+        String sql = "SELECT * FROM utilizador WHERE login = '"+Login.login+"'";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+        while(rs.next()){
+            ctxLogin.setText(rs.getString(7));
+            ctxNome.setText(rs.getString(2));
+            ctxEmail.setText(rs.getString(3));
+            ctxMorada.setText(rs.getString(4));
+            ctxTelefone.setText(rs.getString(5));
+            ctxNIF.setText(rs.getString(6));
+        }
+        
+        
+        
     }
 }

@@ -246,7 +246,7 @@ public class FormRegisto extends javax.swing.JFrame {
                 } catch (SQLException ex) {
                     Logger.getLogger(FormRegisto.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                RegistarUtilizador(nome, login, email, morada, telefone, nif, pass);  
+//                RegistarUtilizador(nome, login, email, morada, telefone, nif, pass);  
             }
         }
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -416,33 +416,33 @@ public class FormRegisto extends javax.swing.JFrame {
         }
     }
 
-    private void RegistarUtilizador(String nome, String login, String email, String morada, String telefone, String nif, String pass) {
-        File ficheiro = new File(login + ".txt");
-        if (!ficheiro.exists()) {
-            try {
-                ficheiro.createNewFile();
-                FileWriter fw = new FileWriter(ficheiro, true);
-                BufferedWriter bw = new BufferedWriter(fw);
-                bw.write(pass);
-                bw.newLine();
-                bw.write(nome);
-                bw.newLine();
-                bw.write(email);
-                bw.newLine();
-                bw.write(morada);
-                bw.newLine();
-                bw.write(telefone);
-                bw.newLine();
-                bw.write(nif);
-                bw.newLine();
-                bw.close();
-                fw.close();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-        } else if (ficheiro.exists()) {
-            mensagemErro("O utilizador já está registado!");        
-        }
-
-    }
+//    private void RegistarUtilizador(String nome, String login, String email, String morada, String telefone, String nif, String pass) {
+//        File ficheiro = new File(login + ".txt");
+//        if (!ficheiro.exists()) {
+//            try {
+//                ficheiro.createNewFile();
+//                FileWriter fw = new FileWriter(ficheiro, true);
+//                BufferedWriter bw = new BufferedWriter(fw);
+//                bw.write(pass);
+//                bw.newLine();
+//                bw.write(nome);
+//                bw.newLine();
+//                bw.write(email);
+//                bw.newLine();
+//                bw.write(morada);
+//                bw.newLine();
+//                bw.write(telefone);
+//                bw.newLine();
+//                bw.write(nif);
+//                bw.newLine();
+//                bw.close();
+//                fw.close();
+//            } catch (IOException ex) {
+//                ex.printStackTrace();
+//            }
+//        } else if (ficheiro.exists()) {
+//            mensagemErro("O utilizador já está registado!");        
+//        }
+//
+//    }
 }
