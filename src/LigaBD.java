@@ -53,4 +53,11 @@ public class LigaBD {
         ps.executeUpdate();
     }
 
+    static void remove(int p) throws SQLException {
+        String  query = "DELETE FROM utilizador WHERE idUtilizador = '"+p+"'";
+        Connection liga = ligacao();
+        PreparedStatement ps = liga.prepareStatement(query);
+        ps.executeUpdate();
+    }
+
 }

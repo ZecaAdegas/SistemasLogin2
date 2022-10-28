@@ -4,7 +4,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -78,8 +81,10 @@ public class MenuOpcoes extends javax.swing.JFrame {
             }
         });
 
-        btnSair.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        btnSair.setText("Sair");
+        btnSair.setBackground(new java.awt.Color(255, 0, 0));
+        btnSair.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        btnSair.setText("SAIR");
+        btnSair.setActionCommand("SAIR");
         btnSair.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSairActionPerformed(evt);
@@ -91,32 +96,32 @@ public class MenuOpcoes extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(180, 180, 180)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnMostrarUsers, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnEliminarUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnMostrarDadosUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnEditarDadosUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(180, Short.MAX_VALUE))
+                .addGap(146, 146, 146)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnMostrarDadosUser, javax.swing.GroupLayout.PREFERRED_SIZE, 282, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnMostrarUsers)
+                    .addComponent(btnEditarDadosUser, javax.swing.GroupLayout.PREFERRED_SIZE, 282, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEliminarUser, javax.swing.GroupLayout.PREFERRED_SIZE, 282, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(152, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnSair, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(23, 23, 23))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(90, 90, 90)
+                .addContainerGap(81, Short.MAX_VALUE)
                 .addComponent(btnMostrarUsers)
-                .addGap(50, 50, 50)
+                .addGap(53, 53, 53)
                 .addComponent(btnEliminarUser)
-                .addGap(50, 50, 50)
+                .addGap(64, 64, 64)
                 .addComponent(btnMostrarDadosUser)
-                .addGap(50, 50, 50)
+                .addGap(54, 54, 54)
                 .addComponent(btnEditarDadosUser)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 53, Short.MAX_VALUE)
+                .addGap(28, 28, 28)
                 .addComponent(btnSair)
-                .addContainerGap())
+                .addGap(18, 18, 18))
         );
 
         pack();
@@ -146,9 +151,14 @@ public class MenuOpcoes extends javax.swing.JFrame {
     }//GEN-LAST:event_btnMostrarDadosUserActionPerformed
 
     private void btnEditarDadosUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarDadosUserActionPerformed
-        FormEditar fr = new FormEditar();
+        FormEditar fe = null;
+        try {
+            fe = new FormEditar();
+        } catch (SQLException ex) {
+            Logger.getLogger(MenuOpcoes.class.getName()).log(Level.SEVERE, null, ex);
+        }
         this.setVisible(false);
-        fr.setVisible(true);
+        fe.setVisible(true);
     }//GEN-LAST:event_btnEditarDadosUserActionPerformed
 
     private void btnSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSairActionPerformed
@@ -158,15 +168,9 @@ public class MenuOpcoes extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSairActionPerformed
 
     private void btnMostrarUsersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMostrarUsersActionPerformed
-        File ficheiro = new File("C:\\Users\\hpaulo\\Desktop\\ProjetoJava\\SistemasLogin2");
-        File [] lista = ficheiro.listFiles();
-        System.out.println("Lista de Utilizadores");
-        for (File lista1 : lista) {
-            if (lista1.getName().endsWith(".txt")) {
-                System.out.println(lista1.getName().replace(".txt", ""));
-            }
-            
-        }
+        Tabela tb = new Tabela();
+        this.dispose();
+        tb.setVisible(true);
     }//GEN-LAST:event_btnMostrarUsersActionPerformed
 
     private void btnEliminarUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarUserActionPerformed
